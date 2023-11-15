@@ -1,0 +1,4 @@
+POST http://localhost:5000/api/v1/openai/generate
+content-type: application/json
+
+{"topic": "football"}
