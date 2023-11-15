@@ -1,3 +1,5 @@
+//this is just an extention for fetching the name of the extention is REST client.
+
 POST http://localhost:5000/api/v1/openai/generate
 content-type: application/json
 
