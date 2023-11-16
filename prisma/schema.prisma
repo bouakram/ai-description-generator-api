@@ -11,29 +11,25 @@ datasource db {
 }
 
 model User {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
-  email       String        @unique
-  username    String
-  password    String
-  role        String        @default("user")
-  topic       Topic[]
-  Description Description[]
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  email    String    @unique
+  username String
+  password String
+  role     String    @default("user")
+  content  Content[]
 }
 
-model Topic {
-  id            String        @id @default(auto()) @map("_id") @db.ObjectId
-  name          String
-  userId        String        @db.ObjectId
-  descriptionId String        @db.ObjectId
-  user          User          @relation(fields: [userId], references: [id])
-  description   Description[]
+model Plateform {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  content Content[]
 }
 
-model Description {
-  id      String @id @map("_id") @db.ObjectId
-  userId  String @db.ObjectId
-  topicId String @db.ObjectId
-  body    String
-  user    User   @relation(fields: [userId], references: [id])
-  topic   Topic  @relation(fields: [topicId], references: [id])
+model Content {
+  id          String    @id @map("_id") @db.ObjectId
+  userId      String    @db.ObjectId
+  plateformId String    @db.ObjectId
+  body        String
+  user        User      @relation(fields: [userId], references: [id])
+  plateform   Plateform @relation(fields: [plateformId], references: [id])
 }
