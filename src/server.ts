@@ -17,7 +17,7 @@ const port = process.env.PORT || 5001
 
 //middlewares
 app.use(cors({
-    allowedHeaders: [process.env.FRONT_URL],
+    origin: process.env.FRONT_URL,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true
 }))

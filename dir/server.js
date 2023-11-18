@@ -18,7 +18,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 5001;
 //middlewares
 app.use((0, cors_1.default)({
-    allowedHeaders: [process.env.FRONT_URL],
+    origin: process.env.FRONT_URL,
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true
 }));
