@@ -1,4 +1,4 @@
-export interface promtTypes {
+export interface PromtTypes {
     Role: string,
     Number_of_Posts_to_Generate: number,
     Social_Media_Platform: string,
