@@ -9,16 +9,23 @@ const prismaClient_1 = require("../utils/prismaClient");
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
-import('colors');
+require("colors");
 const protectUser = (0, express_async_handler_1.default)(async (req, res, next) => {
     let token;
     token = req.cookies.token;
-    if (token ?? false) {
+    if (token) {
         try {
             const DECODED = jsonwebtoken_1.default.verify(token, process.env.TOKEN_KEY);
-            const USER = await prismaClient_1.prisma.user.findUnique({
+            const USER = await prismaClient_1.prisma.user.findFirst({
                 where: {
-                    id: DECODED.id
+                    OR: [
+                        {
+                            id: DECODED.id
+                        },
+                        {
+                            googleId: DECODED.id
+                        },
+                    ]
                 },
                 select: {
                     id: true,

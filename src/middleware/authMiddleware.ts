@@ -2,11 +2,11 @@ import jwt, { type JwtPayload } from 'jsonwebtoken'
 import ErrHandeling from '../utils/ErrorHandler'
 import { prisma } from '../utils/prismaClient'
 import AsyncHandler from 'express-async-handler'
-import { config } from 'dotenv'
 import { NextFunction, Request, Response } from 'express'
 import { User } from '@prisma/client'
+import { config } from 'dotenv'
 config()
-import('colors')
+import 'colors'
 
 interface CostumeRequest extends Request {
     user?: Pick<User, "id" | "email">
@@ -15,12 +15,19 @@ interface CostumeRequest extends Request {
 const protectUser = AsyncHandler(async (req: CostumeRequest, res: Response, next: NextFunction) => {
     let token: string
     token = req.cookies.token
-    if (token ?? false) {
+    if (token) {
         try {
             const DECODED = jwt.verify(token, process.env.TOKEN_KEY) as JwtPayload
-            const USER: Pick<User, "id" | "email"> | null = await prisma.user.findUnique({
+            const USER: Pick<User, "id" | "email"> | null = await prisma.user.findFirst({
                 where: {
-                    id: DECODED.id
+                    OR: [
+                        {
+                            id: DECODED.id
+                        },
+                        {
+                            googleId: DECODED.id
+                        },
+                    ]
                 },
                 select: {
                     id: true,
