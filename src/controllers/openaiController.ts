@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express"
-import { promtTypes } from "types"
+import { PromtTypes } from "types"
 
 const asyncHandler = require('express-async-handler')
 const ErrHandeling = require('../utils/ErrorHandler')
@@ -9,7 +9,7 @@ const openai = require('../utils/openaiConfig')
 //@route POST /api/v1/openai/generate
 //@access privet
 const generateDescription = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const { Role, Number_of_Posts_to_Generate, Social_Media_Platform, Tone, Avoid, Emoji, Number_of_Words }: promtTypes = req.body
+    const { Role, Number_of_Posts_to_Generate, Social_Media_Platform, Tone, Avoid, Emoji, Number_of_Words }: PromtTypes = req.body
 
     const COMPLETION = await openai.chat.completions.create({
         message: [{
