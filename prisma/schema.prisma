@@ -11,12 +11,14 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  email    String    @unique
-  username String
-  password String
-  pic      String?
-  content  Content[]
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  email       String    @unique
+  googleId    String?   @unique
+  accessToken String?   @unique
+  username    String
+  password    String?
+  pic         String?
+  content     Content[]
 }
 
 model Plateform {
