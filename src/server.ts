@@ -3,30 +3,44 @@ import cors from 'cors'
 import logger from 'morgan'
 import ErrHandeling from './utils/ErrorHandler'
 import globalError from './middleware/errorMiddleware'
+import cookieParser from 'cookie-parser'
+import session from "express-session"
 
 import { config } from 'dotenv'
 config()
-import('colors')
+import 'colors'
 
 //export routes
 import DescGen from './routes/openaiRoutes'
-import cookieParser from 'cookie-parser'
+import Auth from './routes/authRoutes'
+
 
 const app = express()
 const port = process.env.PORT || 5001
 
 //middlewares
-app.use(cors({
-    origin: process.env.FRONT_URL,
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    credentials: true
-}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+if (process.env.NODE_ENV === 'development') {
+    app.use(cors())
+} else {
+    app.use(cors({
+        origin: process.env.FRONT_URL,
+        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+        credentials: true,
+    }))
+}
+app.use(
+    session({
+        secret: "secret",
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 app.use(cookieParser())
 
 //routes
-app.use("/api/v1/auth")
+app.use("/api/v1/auth", Auth)
 app.use("/api/v1/openai", DescGen)
 
 //handling invalid routes
@@ -39,14 +53,14 @@ app.all("*", (req, res, next) => {
 app.use(globalError)
 
 //logger
-if (process.env.NODE_ENV !== 'development') {
+if (process.env.NODE_ENV === 'development') {
     app.use(logger("dev"))
-    console.log(`MODE : ${process.env.NODE_ENV}`.blue.italic)
+    console.log(`MODE : ${process.env.NODE_ENV}`.bgBlue)
 }
 
 //starting the server
 const server = app.listen(port, () => {
-    console.log(`server listening on port ${port}`.white.bgMagenta.italic)
+    console.log(`server listening on port ${port}`.bgMagenta.white)
 })
 
 //@desc global err handeling rejection outside express
