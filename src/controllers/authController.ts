@@ -53,7 +53,7 @@ export const register = asyncHandler(async (req, res, next) => {
         sameSite: 'strict',
         maxAge: 15 * 24 * 60 * 60 * 1000
     })
-    res.status(200).json({ message: 'User regestred successfully' })
+    res.status(200).json({ message: 'User regestred successfully', token: generateToken(CREATED_USER.id) })
 })
 
 //@desc login user
