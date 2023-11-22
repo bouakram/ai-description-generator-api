@@ -13,11 +13,11 @@ datasource db {
 model User {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   email       String    @unique
-  googleId    String?   @unique
-  accessToken String?   @unique
+  googleId    String?   @unique @default("null")
+  accessToken String?   @unique @default("null")
   username    String
   password    String?
-  pic         String?
+  pic         String?   @default("null")
   content     Content[]
 }
 
