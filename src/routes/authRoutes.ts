@@ -13,6 +13,6 @@ Router.route('/register').post(register)
 
 Router.route('/login').post(logIn)
 
-Router.route('/logout').post(logOut)
+Router.route('/logout').get(logOut)
 
 export default Router

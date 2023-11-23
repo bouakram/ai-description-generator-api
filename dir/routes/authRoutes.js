@@ -14,6 +14,6 @@ Router.route('/google').get(passport_1.default.authenticate('google', {
 Router.route('/google/callback').get(passport_1.default.authenticate('google', { failureRedirect: '/login' }), authController_1.googleAuthCallback);
 Router.route('/register').post(authController_1.register);
 Router.route('/login').post(authController_1.logIn);
-Router.route('/logout').post(authController_1.logOut);
+Router.route('/logout').get(authController_1.logOut);
 exports.default = Router;
 //# sourceMappingURL=authRoutes.js.map
