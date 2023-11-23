@@ -53,7 +53,7 @@ export const register = asyncHandler(async (req, res, next) => {
         sameSite: 'strict',
         maxAge: 15 * 24 * 60 * 60 * 1000
     })
-    res.status(200).json({ message: 'User regestred successfully', token: generateToken(CREATED_USER.id) })
+    res.status(200).json({ message: 'User regestred successfully' })
 })
 
 //@desc login user
@@ -67,13 +67,15 @@ export const logIn = asyncHandler(async (req, res, next) => {
         } as User
     })
 
-    if (USER && bcrypt.compare(USER.password, password)) {
+    if (USER && await bcrypt.compare(password, USER.password)) {
         res.cookie('token', generateToken(USER.id), {
             httpOnly: true,
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
             maxAge: 15 * 24 * 60 * 60 * 1000
         })
+        res.status(200).json({ message: "user logd in successfully", token: generateToken(USER.id) })
+    } else {
         res.status(200).json({ message: "user logd in successfully" })
     }
 })
@@ -82,9 +84,9 @@ export const logIn = asyncHandler(async (req, res, next) => {
 //@route /api/v1/auth/logout
 //@access public
 export const logOut = asyncHandler(async (req, res, next) => {
-    const coockie = req.cookies
-    if (!coockie.token) {
-        return next(new ErrHandeling("nomthing went wrong try again!", 400))
+    const token = req.cookies.token
+    if (!token) {
+        return next(new ErrHandeling("something went wrong", 400))
     }
     res.clearCookie('token', {
         httpOnly: true,

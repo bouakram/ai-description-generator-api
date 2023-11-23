@@ -68,13 +68,16 @@ exports.logIn = (0, express_async_handler_1.default)(async (req, res, next) => {
             email
         }
     });
-    if (USER && bcrypt_1.default.compare(USER.password, password)) {
+    if (USER && await bcrypt_1.default.compare(password, USER.password)) {
         res.cookie('token', (0, generateToken_1.default)(USER.id), {
             httpOnly: true,
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'strict',
             maxAge: 15 * 24 * 60 * 60 * 1000
         });
+        res.status(200).json({ message: "user logd in successfully", token: (0, generateToken_1.default)(USER.id) });
+    }
+    else {
         res.status(200).json({ message: "user logd in successfully" });
     }
 });
@@ -82,9 +85,9 @@ exports.logIn = (0, express_async_handler_1.default)(async (req, res, next) => {
 //@route /api/v1/auth/logout
 //@access public
 exports.logOut = (0, express_async_handler_1.default)(async (req, res, next) => {
-    const coockie = req.cookies;
-    if (!coockie.token) {
-        return next(new ErrorHandler_1.default("nomthing went wrong try again!", 400));
+    const token = req.cookies.token;
+    if (!token) {
+        return next(new ErrorHandler_1.default("something went wrong", 400));
     }
     res.clearCookie('token', {
         httpOnly: true,
