@@ -22,7 +22,11 @@ const port = process.env.PORT || 5001;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 if (process.env.NODE_ENV === 'development') {
-    app.use((0, cors_1.default)());
+    app.use((0, cors_1.default)({
+        origin: '*',
+        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+        credentials: true
+    }));
 }
 else {
     app.use((0, cors_1.default)({
