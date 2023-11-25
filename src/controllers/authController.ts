@@ -8,8 +8,11 @@ import generateToken from "../token/generateToken"
 import { User } from "@prisma/client"
 config()
 
+//@desc google auth callback function
+//@route GET auth/api/google/callback
+//@access public
 export const googleAuthCallback = (req: Request, res: Response) => {
-    // Successful authentication, redirect home.
+    // Successful authentication, redirect home.)
     if (req.user) {
         const AUTHUSER = req.user as User
         res.cookie('token', generateToken(AUTHUSER.id), {
@@ -20,6 +23,22 @@ export const googleAuthCallback = (req: Request, res: Response) => {
         })
     }
     res.redirect(process.env.FRONT_URL);
+}
+
+//@desc getting the user from req for the auth verification process
+//@route GET api/v1/auth/verify-user
+//@access public
+export const verifyUser = (req: Request, res: Response) => {
+    const token = req.cookies.token as string
+    if (token) {
+        return res.status(200).json({
+            token: token
+        })
+    } else {
+        return res.status(401).json({
+            message: "no user found"
+        })
+    }
 }
 
 //@desc register user
@@ -74,9 +93,9 @@ export const logIn = asyncHandler(async (req, res, next) => {
             sameSite: 'strict',
             maxAge: 15 * 24 * 60 * 60 * 1000
         })
-        res.status(200).json({ message: "user logd in successfully", token: generateToken(USER.id) })
+        res.status(200).json({ message: "user logged in successfully", token: generateToken(USER.id) })
     } else {
-        res.status(200).json({ message: "user logd in successfully" })
+        res.status(400).json({ message: "email or password is incorrect" })
     }
 })
 
@@ -84,13 +103,17 @@ export const logIn = asyncHandler(async (req, res, next) => {
 //@route /api/v1/auth/logout
 //@access public
 export const logOut = asyncHandler(async (req, res, next) => {
-    const token = req.cookies.token
-    if (!token) {
-        return next(new ErrHandeling("something went wrong", 400))
-    }
     res.clearCookie('token', {
         httpOnly: true,
         secure: true
     })
-    res.status(203).redirect(process.env.FRONT_URL)
+
+    req.logout({}, (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(203).redirect(process.env.FRONT_URL);
+        }
+    });
 })
