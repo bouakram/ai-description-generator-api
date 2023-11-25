@@ -16,31 +16,24 @@ require("colors");
 //export routes
 const openaiRoutes_1 = __importDefault(require("./routes/openaiRoutes"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const passport_1 = __importDefault(require("passport"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5001;
 //middlewares
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-if (process.env.NODE_ENV === 'development') {
-    app.use((0, cors_1.default)({
-        origin: '*',
-        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-        credentials: true
-    }));
-}
-else {
-    app.use((0, cors_1.default)({
-        origin: process.env.FRONT_URL,
-        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-        credentials: true,
-    }));
-}
+app.use((0, cors_1.default)({
+    origin: process.env.FRONT_URL,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+}));
 app.use((0, express_session_1.default)({
-    secret: "secret",
+    secret: 'secret',
     resave: false,
-    saveUninitialized: false,
+    unset: 'destroy',
 }));
 app.use((0, cookie_parser_1.default)());
+app.use(passport_1.default.initialize());
 //routes
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/openai", openaiRoutes_1.default);

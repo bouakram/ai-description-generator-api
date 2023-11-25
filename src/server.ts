@@ -13,6 +13,7 @@ import 'colors'
 //export routes
 import DescGen from './routes/openaiRoutes'
 import Auth from './routes/authRoutes'
+import passport from 'passport'
 
 
 const app = express()
@@ -21,27 +22,18 @@ const port = process.env.PORT || 5001
 //middlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-if (process.env.NODE_ENV === 'development') {
-    app.use(cors({
-        origin: '*',
-        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-        credentials: true
-    }))
-} else {
-    app.use(cors({
-        origin: process.env.FRONT_URL,
-        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-        credentials: true,
-    }))
-}
-app.use(
-    session({
-        secret: "secret",
-        resave: false,
-        saveUninitialized: false,
-    })
-);
+app.use(cors({
+    origin: process.env.FRONT_URL,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+}))
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    unset: 'destroy',
+}))
 app.use(cookieParser())
+app.use(passport.initialize())
 
 //routes
 app.use("/api/v1/auth", Auth)
