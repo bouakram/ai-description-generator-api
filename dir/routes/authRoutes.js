@@ -11,7 +11,8 @@ Router.route('/google').get(passport_1.default.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/userinfo.profile',
         'https://www.googleapis.com/auth/userinfo.email']
 }));
-Router.route('/google/callback').get(passport_1.default.authenticate('google', { failureRedirect: '/login' }), authController_1.googleAuthCallback);
+Router.route('/google/callback').get(passport_1.default.authenticate('google', { failureRedirect: '/authentication' }), authController_1.googleAuthCallback);
+Router.route('/verify-user').get(authController_1.verifyUser);
 Router.route('/register').post(authController_1.register);
 Router.route('/login').post(authController_1.logIn);
 Router.route('/logout').get(authController_1.logOut);
