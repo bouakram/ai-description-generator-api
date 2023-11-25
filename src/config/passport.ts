@@ -64,7 +64,7 @@ passport.serializeUser(function (user: passportGoogle.Profile, done) {
 });
 passport.deserializeUser(function (id: string, done) {
     const USER = prisma.user.findUnique({ where: { googleId: id } })
-    if (USER ?? false) {
+    if (USER) {
         process.nextTick(function (err: Error, USER: passportGoogle.Profile) {
             done(err, USER);
         })

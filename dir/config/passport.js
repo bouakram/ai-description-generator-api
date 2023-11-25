@@ -62,7 +62,7 @@ passport_1.default.serializeUser(function (user, done) {
 });
 passport_1.default.deserializeUser(function (id, done) {
     const USER = prismaClient_1.prisma.user.findUnique({ where: { googleId: id } });
-    if (USER ?? false) {
+    if (USER) {
         process.nextTick(function (err, USER) {
             done(err, USER);
         });
