@@ -1,6 +1,6 @@
 export interface PromtTypes {
     Role: string,
-    Number_of_Posts_to_Generate: number,
+    Number_of_Posts_to_Generate: string,
     Social_Media_Platform: string,
     Tone: string,
     Avoid: string,
