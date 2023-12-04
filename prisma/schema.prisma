@@ -21,10 +21,22 @@ model User {
   content     Content[]
 }
 
+enum PLTF {
+  Facebook
+  InstaGram
+  LinkedIn
+  Twitter
+}
+
 model Plateform {
   id      String    @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
+  name    PLTF
   content Content[]
+}
+
+model Topic {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  topic String
 }
 
 model Content {
