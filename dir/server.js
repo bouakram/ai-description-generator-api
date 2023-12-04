@@ -37,6 +37,10 @@ app.use(passport_1.default.initialize());
 //routes
 app.use("/api/v1/auth", authRoutes_1.default);
 app.use("/api/v1/openai", openaiRoutes_1.default);
+// TODO: adding new routes platform
+// app.use("/api/v1/platform", Platform)
+// TODO: adding new routes Topic
+// app.use("/api/v1/topic", Topic)
 //handling invalid routes
 app.all("*", (req, res, next) => {
     next(new ErrorHandler_1.default(`no route found ${req.originalUrl}`, 400));
