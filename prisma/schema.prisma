@@ -30,20 +30,25 @@ enum PLTF {
 
 model Plateform {
   id      String    @id @default(auto()) @map("_id") @db.ObjectId
-  name    PLTF
+  name    PLTF      @unique
   content Content[]
 }
 
+///// TODO: adding relation between topic and content - content belong to anly one topic and the topic belong to many content
+
 model Topic {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  topic String
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  topic   String
+  Content Content[]
 }
 
 model Content {
-  id          String    @id @map("_id") @db.ObjectId
-  userId      String    @db.ObjectId
-  plateformId String    @db.ObjectId
-  body        String
-  user        User      @relation(fields: [userId], references: [id])
-  plateform   Plateform @relation(fields: [plateformId], references: [id])
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @db.ObjectId
+  plateformname PLTF
+  topicId       String    @db.ObjectId
+  body          String
+  user          User      @relation(fields: [userId], references: [id])
+  plateform     Plateform @relation(fields: [plateformname], references: [name])
+  topic         Topic     @relation(fields: [topicId], references: [id])
 }
