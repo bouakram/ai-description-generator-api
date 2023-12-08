@@ -27,21 +27,17 @@ app.use(cors({
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
 }))
+app.use(cookieParser())
 app.use(session({
     secret: 'secret',
     resave: false,
-    unset: 'destroy',
+    saveUninitialized: false,
 }))
-app.use(cookieParser())
 app.use(passport.initialize())
 
 //routes
 app.use("/api/v1/auth", Auth)
 app.use("/api/v1/openai", DescGen)
-// TODO: adding new routes platform
-// app.use("/api/v1/platform", Platform)
-// TODO: adding new routes Topic
-// app.use("/api/v1/topic", Topic)
 
 //handling invalid routes
 app.all("*", (req, res, next) => {
