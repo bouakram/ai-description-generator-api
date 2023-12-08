@@ -10,3 +10,9 @@ export interface PromtTypes {
     Hashtags: boolean,
     Number_of_Words: number
 }
+
+export type ContentGenerated = {
+    topic: string,
+    contentGenerated: string[],
+    platform: "Facebook" | "InstaGram" | "LinkedIn" | "Twitter"
+}
