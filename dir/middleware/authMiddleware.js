@@ -12,26 +12,14 @@ const dotenv_1 = require("dotenv");
 require("colors");
 const protectUser = (0, express_async_handler_1.default)(async (req, res, next) => {
     let token;
+    let query;
     token = req.cookies.token;
     if (token) {
         try {
             const DECODED = jsonwebtoken_1.default.verify(token, process.env.TOKEN_KEY);
-            const USER = await prismaClient_1.prisma.user.findFirst({
-                where: {
-                    OR: [
-                        {
-                            id: DECODED.id
-                        },
-                        {
-                            googleId: DECODED.id
-                        },
-                    ]
-                },
-                select: {
-                    id: true,
-                    email: true
-                }
-            });
+            DECODED.id.length === 21 ? query = { where: { googleId: DECODED.id }, select: { id: true, email: true } }
+                : query = { where: { id: DECODED.id }, select: { id: true, email: true } };
+            const USER = await prismaClient_1.prisma.user.findFirst(query);
             if (USER) {
                 req.user = USER;
                 next();

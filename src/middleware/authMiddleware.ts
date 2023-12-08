@@ -2,40 +2,23 @@ import jwt, { type JwtPayload } from 'jsonwebtoken'
 import ErrHandeling from '../utils/ErrorHandler'
 import { prisma } from '../utils/prismaClient'
 import AsyncHandler from 'express-async-handler'
-import { NextFunction, Request, Response } from 'express'
 import { User } from '@prisma/client'
 import { config } from 'dotenv'
 config()
 import 'colors'
 
-interface CostumeRequest extends Request {
-    user?: Pick<User, "id" | "email">
-}
-
-const protectUser = AsyncHandler(async (req: CostumeRequest, res: Response, next: NextFunction) => {
+const protectUser = AsyncHandler(async (req, res, next) => {
     let token: string
+    let query: object
     token = req.cookies.token
     if (token) {
         try {
             const DECODED = jwt.verify(token, process.env.TOKEN_KEY) as JwtPayload
-            const USER: Pick<User, "id" | "email"> | null = await prisma.user.findFirst({
-                where: {
-                    OR: [
-                        {
-                            id: DECODED.id
-                        },
-                        {
-                            googleId: DECODED.id
-                        },
-                    ]
-                },
-                select: {
-                    id: true,
-                    email: true
-                }
-            })
+            DECODED.id.length === 21 ? query = { where: { googleId: DECODED.id }, select: { id: true, email: true } }
+                : query = { where: { id: DECODED.id }, select: { id: true, email: true } }
+            const USER: Pick<User, "id" | "email"> = await prisma.user.findFirst(query)
             if (USER) {
-                req.user = USER;
+                req.user = USER
                 next()
             } else {
                 next(new ErrHandeling("not authenticated", 400))
