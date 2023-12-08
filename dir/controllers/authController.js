@@ -107,7 +107,7 @@ exports.logIn = (0, express_async_handler_1.default)(async (req, res, next) => {
 exports.logOut = (0, express_async_handler_1.default)(async (req, res, next) => {
     res.clearCookie('token', {
         httpOnly: true,
-        secure: true
+        secure: process.env.NODE_ENV !== 'development'
     });
     req.logout({}, (err) => {
         if (err) {
