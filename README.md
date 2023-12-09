@@ -1,8 +1,8 @@
 # API for Content Generator based on open ai
 
-this is api for content generator use the open ai, it use the chat completions to generate content based on the users provided data. it created using typescript.
+This API utilizes OpenAI's chat completions to generate content based on user-provided data. The project is implemented in TypeScript.
 
-## Project Directory
+## Usage
 
 **dir:** which contain the compiled code of typescript
 
@@ -33,50 +33,57 @@ this is api for content generator use the open ai, it use the chat completions t
 
 ## routes
 
-the routes are as follows:
+### Authentication
+
+To access the API, you need to provide authentication credentials. Currently, we support Google OAuth and credentials-based authentication.
 
 **1- auth routes:**
 
-google auth
+#### Google OAuth
 
--   method = GET | body = null | query = null| url = baseurl/api/v1/auth/google
--   method = GET | body = null | query = null | url = baseurl/api/v1/auth/google/callback
--   method = GET | body | query | url = baseurl/api/v1/auth/verify-user
+-   **Register/Login:** `method = GET | body = null | query = null| url = baseurl/api/v1/auth/google`
+-   **Google Callbacks:** `method = GET | body = null | query = null | url = baseurl/api/v1/auth/google/callback`
+-   **Verify User:** `method = GET | body | query | url = baseurl/api/v1/auth/verify-user`
 
-credentials auth
+#### Credentials Authentication
 
--   method = POST | body = {email, username, password} | query = null | rul = baseurl/api/v1/auth/register
--   method = POST | body = {email, password} | query = null | rul = baseurl/api/v1/auth/login
-
-logout
-
--   method = GET | body = null | query = null | rul = baseurl/api/v1/auth/logout
+-   **Register:** `method = POST | body = {email, username, password} | query = null | rul = baseurl/api/v1/auth/register`
+-   **Login:** `method = POST | body = {email, password} | query = null | rul = baseurl/api/v1/auth/login`
+-   **Logout:** `method = GET | body = null | query = null | rul = baseurl/api/v1/auth/logout`
 
 **2- openAI routes:**
 
-get all topics
+### users content and topic
 
--   method = GET | body = null | query = null | url baseurl/api/v1/openai/topic
+-   **all topics:** `method = GET | body = null | query = null | url baseurl/api/v1/openai/topic`
 
-get the user contents
+-   **user contents:** `method = GET | body = null | query = platform ? | url = baseurl/api/v1/openai/content`
 
--   method = GET | body = null | query = platform ? | url = baseurl/api/v1/openai/content
+-   **last content:** `method = GET | body = null | query = null | url- = baseurl/api/v1/openai/last-content`
 
-get the user last content
+-   **generate content:** `method = POST | body = {Role, Topic, Number_of_Posts_to_Generate, Audience, Social_Media_Platform, Hashtags, Tone, Number_of_Words} | query = null | url = baseurl/api/v1/openai/generate`
 
--   method = GET | body = null | query = null | url- = baseurl/api/v1/openai/last-content
+-   **save content:** `method = POST | body = {topic, contentGenerated, platform} | query = null | url = baseurl/api/v1/openai/content`
 
-generate a new content
+-   **delete content:** `method = DELETE | body = null | query = null | url = baseurl/api/v1/openai/content/:id`
 
--   method = POST | body = {Role, Topic, Number_of_Posts_to_Generate, Audience, Social_Media_Platform, Hashtags, Tone, Number_of_Words} | query = null | url = baseurl/api/v1/openai/generate
+## API Key and Environmental Variables
 
-save the content
+To use this API, you need to obtain an API key from OpenAI. Follow [this link](https://platform.openai.com/) to get your API key. And [this link](https://console.cloud.google.com/) to get google client secret and id.
 
--   method = POST | body = {topic, contentGenerated, platform} | query = null | url = baseurl/api/v1/openai/content
+In the `.env` file, configure the following variables:
 
-delete a specific content
-
--   method = DELETE | body = null | query = null | url = baseurl/api/v1/openai/content/:id
+```dotenv
+NODE_ENV="development"
+PORT=3000
+TOKEN_KEY=your_strong_key
+DATABASE_URL=your_mongodb_database_url
+API_KEY=your_openai_api_key
+FRONT_URL=your_frontend_url
+API_URL="http://localhost:"
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+```
 
 ## ENV file
 
@@ -93,7 +100,3 @@ API_URL="http://localhost:"
 GOOGLE_CLIENT_ID=put your google client id
 GOOGLE_CLIENT_SECRET=put your google client secret
 ```
-
-[Click here](https://platform.openai.com/) to get the api key.
-
-[Click here](https://console.cloud.google.com/) to get the google id and client key.
