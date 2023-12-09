@@ -4,9 +4,11 @@ this is api for content generator use the open ai, it use the chat completions t
 
 ## Project Directory
 
--   dir : which contain the compiled code of typescript
--   prisma: which contain the schema it uses mongodb as backend
--   src: which contain the typescript source code
+**dir:** which contain the compiled code of typescript
+
+**prisma:** which contain the schema it uses mongodb as backend
+
+**src:** which contain the typescript source code
 
 -   **src**
     -   **config**
