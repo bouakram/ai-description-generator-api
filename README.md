@@ -2,8 +2,6 @@
 
 This API utilizes OpenAI's chat completions to generate content based on user-provided data. The project is implemented in TypeScript.
 
-## Usage
-
 **dir:** which contain the compiled code of typescript
 
 **prisma:** which contain the schema it uses mongodb as backend
@@ -66,6 +64,26 @@ To access the API, you need to provide authentication credentials. Currently, we
 -   **save content:** `method = POST | body = {topic, contentGenerated, platform} | query = null | url = baseurl/api/v1/openai/content`
 
 -   **delete content:** `method = DELETE | body = null | query = null | url = baseurl/api/v1/openai/content/:id`
+
+## Usage
+
+install the dependencies:
+
+```shell
+npm install
+```
+
+run the ts compiler first
+
+```shell
+npm run ts-server
+```
+
+tun the server
+
+```shell
+npm run js-server
+```
 
 ## API Key and Environmental Variables
 
