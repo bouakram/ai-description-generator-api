@@ -4,7 +4,7 @@ This API utilizes OpenAI's chat completions to generate content based on user-pr
 
 **dir:** which contain the compiled code of typescript
 
-**prisma:** which contain the schema it uses mongodb as backend
+**prisma:** which contain the schema it uses mongodb database
 
 **src:** which contain the typescript source code
 
@@ -93,28 +93,12 @@ In the `.env` file, configure the following variables:
 
 ```dotenv
 NODE_ENV="development"
-PORT=3000
-TOKEN_KEY=your_strong_key
+PORT=3000 || any other port
+TOKEN_KEY=strong_key
 DATABASE_URL=your_mongodb_database_url
 API_KEY=your_openai_api_key
 FRONT_URL=your_frontend_url
 API_URL="http://localhost:"
 GOOGLE_CLIENT_ID=your_google_client_id
 GOOGLE_CLIENT_SECRET=your_google_client_secret
-```
-
-## ENV file
-
-in the .env file you need to put this variables:
-
-```javascript
-NODE_ENV="development"
-PORT= put any port number
-TOKEN_KEY= generate a strong key
-DATABASE_URL= put your mongodb database url
-API_KEY=put your open ai api key
-FRONT_URL=your front end url
-API_URL="http://localhost:"
-GOOGLE_CLIENT_ID=put your google client id
-GOOGLE_CLIENT_SECRET=put your google client secret
 ```
