@@ -45,9 +45,9 @@ To access the API, you need to provide authentication credentials. Currently, we
 
 #### Credentials Authentication
 
--   **Register:** `method = POST | body = {email, username, password} | query = null | rul = baseurl/api/v1/auth/register`
--   **Login:** `method = POST | body = {email, password} | query = null | rul = baseurl/api/v1/auth/login`
--   **Logout:** `method = GET | body = null | query = null | rul = baseurl/api/v1/auth/logout`
+-   **Register:** `method = POST | body = {email, username, password} | query = null | url = baseurl/api/v1/auth/register`
+-   **Login:** `method = POST | body = {email, password} | query = null | url = baseurl/api/v1/auth/login`
+-   **Logout:** `method = GET | body = null | query = null | url = baseurl/api/v1/auth/logout`
 
 **2- openAI routes:**
 
